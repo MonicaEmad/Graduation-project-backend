@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use App\Enums\UserStatus;
+use App\Enums\UserRole;
 return new class extends Migration
 {
     /**
@@ -12,12 +13,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid()->primary();
+            $table->uuid('id')->primary();
             $table->string('f_name');
             $table->string('l_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('city')->nullable();
+             $table->string('street')->nullable();
+            $table->string('personal_photo')->nullable();
+            $table->string('role')->default(UserRole::JOB_SEEKER->value);
+            $table->string('status')->default(UserStatus::ACTIVE->value);
+            $table->boolean('gender')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });
